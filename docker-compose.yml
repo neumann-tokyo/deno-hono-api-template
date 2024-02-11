@@ -6,5 +6,9 @@ services:
     command: tail -f /dev/null
     volumes:
       - .:/home/alice/server
+      - deno-dir-data:/home/alice/deno-dir
     ports:
       - "8080:8080"
+
+volumes:
+  deno-dir-data:
