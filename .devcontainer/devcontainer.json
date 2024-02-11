@@ -32,7 +32,7 @@
           "bash": { "path": "/bin/bash" }
         },
         "editor.defaultFormatter": "denoland.vscode-deno",
-        "workbench.colorTheme": "GitHub Dark Colorblind",
+        "workbench.colorTheme": "GitHub Dark High Contrast",
         "sql-formatter.uppercase": false,
         "[sql]": {
           "editor.defaultFormatter": "lea21st.vscode-sql-formatter"
