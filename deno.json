@@ -1,5 +1,5 @@
 {
-	"tasks": {
-		"dev": "deno run --allow-net hello.ts"
-	}
+  "tasks": {
+    "dev": "deno run --allow-net hello.ts"
+  }
 }

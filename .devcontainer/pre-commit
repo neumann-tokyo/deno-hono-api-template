@@ -1,3 +1,3 @@
 #!/bin/bash
 
-deno fmt && deno lint && git update-index --again
+deno fmt && deno lint && git add -A /home/alice/server && git update-index --again
