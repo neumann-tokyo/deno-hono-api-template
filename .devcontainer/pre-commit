@@ -1,0 +1,3 @@
+#!/bin/bash
+
+deno fmt && deno lint && git update-index --again
