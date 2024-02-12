@@ -1,5 +1,10 @@
 {
   "tasks": {
     "dev": "deno run --allow-net hello.ts"
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
   }
 }
