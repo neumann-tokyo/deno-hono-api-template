@@ -1,0 +1,37 @@
+#!/bin/bash
+set -Ceux
+
+ARGS=${@:2}
+DC="docker compose -f docker-compose.yml"
+
+case ${1} in
+"dc") ## docker compose
+${DC} ${ARGS}
+;;
+"setup") ## setup
+${DC} up -d db db-test
+sleep 3
+${DC} up migrate migrate-test
+sleep 3
+${DC} up -d server
+sleep 3
+./runner.local db:seed
+${DC} up -d
+;;
+"reset") ## reset
+${DC} down -v
+sleep 5
+./runner.local setup
+;;
+"db:seed") ##
+for sql in db/seeds/{01_share,development}/*.sql; do
+  echo $sql
+  ${DC} exec -T web psql postgresql://postgres:password@db:5432/development?sslmode=disable < $sql
+done
+;;
+"help" | *)
+echo "HELP"
+echo "  COMMAND ) DESCRIPTION ) REQUIRE ) ARGS"
+\grep -E "\)\ *\##" ${0}
+;;
+esac

@@ -1,0 +1,21 @@
+#!/bin/bash
+set -Ceux
+
+ARGS=${@:2}
+
+case ${1} in
+"psql") ##
+psql postgresql://postgres:password@db:5432/development?sslmode=disable
+;;
+"db:seed") ##
+for sql in db/seeds/{01_share,development}/*.sql; do
+  echo $sql
+  psql postgresql://postgres:password@db:5432/development?sslmode=disable < $sql
+done
+;;
+"help" | *)
+echo "HELP"
+echo "  COMMAND ) DESCRIPTION ) REQUIRE ) ARGS"
+\grep -E "\)\ *\##" ${0}
+;;
+esac

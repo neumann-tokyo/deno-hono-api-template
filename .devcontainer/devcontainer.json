@@ -22,8 +22,25 @@
         "lea21st.vscode-sql-formatter"
       ],
       "settings": {
-        "deno.enablePaths": ["/home/alice/server"],
         "deno.enable": true,
+        "deno.config": "/home/alice/server/deno.jsonc",
+        "deno.codeLens.implementations": true,
+        "deno.internalInspect": false,
+        "deno.path": "/usr/bin/deno",
+        "javascript.inlayHints.enumMemberValues.enabled": true,
+        "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+        "javascript.inlayHints.parameterNames.enabled": "all",
+        "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
+        "javascript.inlayHints.parameterTypes.enabled": true,
+        "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+        "javascript.inlayHints.variableTypes.enabled": true,
+        "typescript.inlayHints.enumMemberValues.enabled": true,
+        "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+        "typescript.inlayHints.parameterNames.enabled": "all",
+        "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
+        "typescript.inlayHints.parameterTypes.enabled": true,
+        "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+        "typescript.inlayHints.variableTypes.enabled": true,
         "editor.formatOnSave": true,
         "editor.formatOnSaveMode": "file",
         "files.insertFinalNewline": true,
@@ -31,7 +48,27 @@
         "terminal.integrated.profiles.linux": {
           "bash": { "path": "/bin/bash" }
         },
-        "editor.defaultFormatter": "denoland.vscode-deno",
+        "[javascript]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[javascriptreact]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[markdown]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
         "workbench.colorTheme": "GitHub Dark High Contrast",
         "sql-formatter.uppercase": false,
         "[sql]": {
