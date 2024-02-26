@@ -4,10 +4,10 @@ import { Database } from "./database-types.ts"; // this is the Database interfac
 
 const dialect = new PostgresDialect({
 	pool: new Pool({
-		database: "test",
+		database: "development",
 		host: "localhost",
-		user: "admin",
-		port: 5434,
+		user: "postgres",
+		port: 5432,
 		max: 10,
 	}),
 });

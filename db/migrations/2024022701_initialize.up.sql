@@ -48,7 +48,7 @@ create table
     role_identifier varchar(100) references roles (identifier) on delete cascade on update cascade,
     created_at timestamp not null default now(),
     updated_at timestamp not null default now(),
-    primary key (user_id, role_name)
+    primary key (user_id, role_identifier)
   );
 
 

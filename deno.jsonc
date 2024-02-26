@@ -1,6 +1,7 @@
 {
 	"tasks": {
-		"dev": "deno run --allow-net src/index.ts"
+		"dev": "deno run --allow-net src/index.ts",
+		"kysely-codegen": "echo \"import 'npm:pg@^8.11.3'; import 'npm:kysely-codegen@^0.11.0';\" | deno run --allow-env -A npm:kysely-codegen@^0.11.0 - kysely-codegen --dialect=postgres --out-file ./src/database-types.ts --env-file .env"
 	},
 	"imports": {
 		"hono": "https://deno.land/x/hono@v4.0.1",

@@ -9,13 +9,19 @@ case ${1} in
 ${DC} ${ARGS}
 ;;
 "setup") ## setup
-${DC} up -d db
+${DC} up -d --build
 sleep 3
-# ${DC} up migrate
-# sleep 3
-${DC} up -d server
+./runner.local migrate
+sleep 3
+./runner.local migrate:test
 # sleep 3
 # ./runner.local db:seed
+;;
+"migrate") ## migrate
+${DC} exec server migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable up
+;;
+"migrate:test") ## migrate test
+${DC} exec server migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable up
 ;;
 "reset") ## reset
 ${DC} down -v

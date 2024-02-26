@@ -1,7 +1,9 @@
 ARG DENO_VERSION=1.40.4
 ARG BIN_IMAGE=denoland/deno:bin-${DENO_VERSION}
 
-FROM ${BIN_IMAGE} AS bin
+FROM ${BIN_IMAGE} AS deno-bin
+
+FROM migrate/migrate AS migrate-bin
 
 # -------------
 
@@ -33,7 +35,9 @@ ENV DENO_INSTALL_ROOT /usr/local
 
 ARG DENO_VERSION
 ENV DENO_VERSION=${DENO_VERSION}
-COPY --from=bin /deno /usr/bin/deno
+COPY --from=deno-bin /deno /usr/bin/deno
+
+COPY --from=migrate-bin /usr/local/bin/migrate /usr/bin/migrate
 
 USER $USERNAME
 WORKDIR /home/$USERNAME/server

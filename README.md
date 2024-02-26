@@ -10,4 +10,5 @@ deno task dev
 - [x] docker-compose and devcontainer
 - [x] PostgreSQL
 - [x] [migrate](https://github.com/golang-migrate/migrate)
-- [ ] [Biome](https://biomejs.dev)
+- [x] [Biome](https://biomejs.dev)
+- [ ] SignIn
