@@ -10,8 +10,8 @@ FROM debian:bookworm
 ARG USERNAME=alice
 
 RUN apt-get update -qq && \
-  apt-get install -y git locales vim less sudo postgresql-client && \
-  useradd -r -m -s /bin/bash -d /home/$USERNAME -u 998 $USERNAME && \
+  apt-get install -y git locales vim less sudo postgresql-client curl && \
+  useradd -r -m -s /bin/bash -d /home/$USERNAME $USERNAME && \
   echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
   chmod 0440 /etc/sudoers.d/$USERNAME && \
   sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
@@ -21,6 +21,9 @@ RUN apt-get update -qq && \
   mkdir -p /home/$USERNAME/deno-dir && \
   chown -R $USERNAME:$USERNAME /home/$USERNAME/server && \
   chown -R $USERNAME:$USERNAME /home/$USERNAME/deno-dir
+RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && \
+  apt-get update -qq && apt-get install -y nodejs && \
+  npm install -g @biomejs/biome
 
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8

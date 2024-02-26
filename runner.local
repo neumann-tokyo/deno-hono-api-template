@@ -9,24 +9,23 @@ case ${1} in
 ${DC} ${ARGS}
 ;;
 "setup") ## setup
-${DC} up -d db db-test
+${DC} up -d db
 sleep 3
-${DC} up migrate migrate-test
-sleep 3
+# ${DC} up migrate
+# sleep 3
 ${DC} up -d server
-sleep 3
-./runner.local db:seed
-${DC} up -d
+# sleep 3
+# ./runner.local db:seed
 ;;
 "reset") ## reset
 ${DC} down -v
-sleep 5
+sleep 3
 ./runner.local setup
 ;;
 "db:seed") ##
 for sql in db/seeds/{01_share,development}/*.sql; do
   echo $sql
-  ${DC} exec -T web psql postgresql://postgres:password@db:5432/development?sslmode=disable < $sql
+  ${DC} exec -T db psql postgresql://postgres:password@db:5432/development?sslmode=disable < $sql
 done
 ;;
 "help" | *)

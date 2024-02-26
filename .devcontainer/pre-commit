@@ -1,3 +1,25 @@
 #!/bin/bash
 
-deno fmt && deno lint && git add -A /home/alice/server && git update-index --again
+ROOT_DIR=$(git rev-parse --show-toplevel)
+TARGETS=$(git diff --name-only --staged $ROOT_DIR)
+
+FULL_PATH_TARGETS=()
+MARKDOWN_FILES=()
+
+for target in $TARGETS
+do
+  if [[ $target =~ \.(js|ts|cjs|mjs|d.cts|d.mts|jsx|tsx|json|jsonc)$ && -e "$ROOT_DIR/$target" ]]; then
+    FULL_PATH_TARGETS+=("$ROOT_DIR/$target")
+  fi
+
+  if [[ $target =~ \.(md|markdown)$ && -e "$ROOT_DIR/$target" ]]; then
+    MARKDOWN_FILES+=("$ROOT_DIR/$target")
+  fi
+done
+
+echo ${FULL_PATH_TARGETS[*]}
+
+biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true ${FULL_PATH_TARGETS[*]} && \
+  deno fmt ${MARKDOWN_FILES[*]} && \
+  git add -A /home/alice/server && \
+  git update-index --again
