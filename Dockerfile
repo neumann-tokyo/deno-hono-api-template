@@ -20,9 +20,7 @@ RUN apt-get update -qq && \
   dpkg-reconfigure --frontend=noninteractive locales && \
   update-locale LANG=en_US.UTF-8 && \
   mkdir -p /home/$USERNAME/server && \
-  mkdir -p /home/$USERNAME/deno-dir && \
-  chown -R $USERNAME:$USERNAME /home/$USERNAME/server && \
-  chown -R $USERNAME:$USERNAME /home/$USERNAME/deno-dir
+  mkdir -p /home/$USERNAME/deno-dir
 RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && \
   apt-get update -qq && apt-get install -y nodejs && \
   npm install -g @biomejs/biome

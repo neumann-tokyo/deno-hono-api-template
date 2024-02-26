@@ -17,7 +17,13 @@ do
   fi
 done
 
-biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true ${FULL_PATH_TARGETS[*]} && \
-  # deno fmt ${MARKDOWN_FILES[*]} && \
-  git add -A /home/alice/server && \
-  git update-index --again
+if [ ${#FULL_PATH_TARGETS[@]} -ne 0 ]; then
+  biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true ${FULL_PATH_TARGETS[*]}
+fi
+
+if [ ${#MARKDOWN_FILES[@]} -ne 0 ]; then
+  deno fmt ${MARKDOWN_FILES[*]}
+fi
+
+git add -A /home/alice/server
+git update-index --again
