@@ -23,7 +23,7 @@ RUN apt-get update -qq && \
   mkdir -p /home/$USERNAME/deno-dir
 RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && \
   apt-get update -qq && apt-get install -y nodejs && \
-  npm install -g @biomejs/biome
+  npm install -g @biomejs/biome sql-formatter
 
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8

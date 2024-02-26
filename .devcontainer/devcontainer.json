@@ -3,7 +3,7 @@
 	"dockerComposeFile": ["../docker-compose.yml"],
 	"service": "server",
 	"workspaceFolder": "/home/alice/server",
-	"postAttachCommand": "git config --global core.pager \"less -FX\" && cp -f /home/alice/server/.devcontainer/pre-commit /home/alice/server/.git/hooks/",
+	"postAttachCommand": "git config --global core.pager \"less -FX\" && cp -f /home/alice/server/.devcontainer/pre-commit /home/alice/server/.git/hooks/ && sudo chown -R alice:alice /home/alice/",
 	"shutdownAction": "stopCompose",
 	"initializeCommand": "ls",
 	"containerUser": "alice",

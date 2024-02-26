@@ -7,6 +7,13 @@ case ${1} in
 "psql") ##
 psql postgresql://postgres:password@db:5432/development?sslmode=disable
 ;;
+"migrate") ## migrate
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable up
+deno task kysely-codegen
+;;
+"migrate:test") ## migrate test
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable up
+;;
 "db:seed") ##
 for sql in db/seeds/{01_share,development}/*.sql; do
   echo $sql
