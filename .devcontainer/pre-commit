@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ROOT_DIR=$(git rev-parse --show-toplevel)
 TARGETS=$(git diff --name-only --staged $ROOT_DIR)
@@ -30,9 +31,9 @@ if [ ${#MARKDOWN_FILES[@]} -ne 0 ]; then
   deno fmt ${MARKDOWN_FILES[*]}
 fi
 
-if [ ${#SQL_FILES[@]} -ne 0 ]; then
-  sql-formatter --fix -l postgresql ${SQL_FILES[*]}
-fi
+# if [ ${#SQL_FILES[@]} -ne 0 ]; then
+#   sql-formatter --fix -l postgresql ${SQL_FILES[*]}
+# fi
 
 git add -A /home/alice/server
 git update-index --again
