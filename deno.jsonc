@@ -8,7 +8,9 @@
 		"hono/": "https://deno.land/x/hono@v4.0.1/",
 		"kysely": "npm:kysely@^0.27.0",
 		"pg": "npm:pg@^8.11.3",
-		"pg-pool": "npm:pg-pool@^3.6.1"
+		"pg-pool": "npm:pg-pool@^3.6.1",
+		"pg-types": "npm:pg-types@^4.0.1",
+		"spacetime": "npm:spacetime@^7.5.0"
 	},
 	"lint": {
 		"rules": {
