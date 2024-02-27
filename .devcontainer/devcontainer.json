@@ -76,7 +76,8 @@
 				"sql-formatter.uppercase": false,
 				"[sql]": {
 					"editor.defaultFormatter": "lea21st.vscode-sql-formatter"
-				}
+				},
+				"sql-formatter.dialect": "postgresql"
 			}
 		}
 	}
