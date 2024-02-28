@@ -13,26 +13,26 @@ export type Int8 = ColumnType<
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Permissions {
-	created_at: Generated<Timestamp>;
+	createdAt: Generated<Timestamp>;
 	description: string | null;
-	display_name: string;
+	displayName: string;
 	identifier: string;
-	updated_at: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
 }
 
 export interface Roles {
-	created_at: Generated<Timestamp>;
+	createdAt: Generated<Timestamp>;
 	description: string | null;
-	display_name: string;
+	displayName: string;
 	identifier: string;
-	updated_at: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
 }
 
 export interface RolesPermissions {
-	created_at: Generated<Timestamp>;
-	permission_identifier: string;
-	role_identifier: string;
-	updated_at: Generated<Timestamp>;
+	createdAt: Generated<Timestamp>;
+	permissionIdentifier: string;
+	roleIdentifier: string;
+	updatedAt: Generated<Timestamp>;
 }
 
 export interface SchemaMigrations {
@@ -41,26 +41,28 @@ export interface SchemaMigrations {
 }
 
 export interface Users {
-	created_at: Generated<Timestamp>;
-	display_name: string;
+	createdAt: Generated<Timestamp>;
+	displayName: string;
 	email: string;
 	id: Generated<number>;
-	password_digest: string;
-	updated_at: Generated<Timestamp>;
+	language: Generated<string>;
+	passwordDigest: string;
+	timezone: Generated<string>;
+	updatedAt: Generated<Timestamp>;
 }
 
 export interface UsersRoles {
-	created_at: Generated<Timestamp>;
-	role_identifier: string;
-	updated_at: Generated<Timestamp>;
-	user_id: number;
+	createdAt: Generated<Timestamp>;
+	roleIdentifier: string;
+	updatedAt: Generated<Timestamp>;
+	userId: number;
 }
 
 export interface DB {
 	permissions: Permissions;
 	roles: Roles;
-	roles_permissions: RolesPermissions;
-	schema_migrations: SchemaMigrations;
+	rolesPermissions: RolesPermissions;
+	schemaMigrations: SchemaMigrations;
 	users: Users;
-	users_roles: UsersRoles;
+	usersRoles: UsersRoles;
 }
