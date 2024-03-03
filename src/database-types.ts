@@ -16,6 +16,7 @@ export interface Permissions {
 	createdAt: Generated<Timestamp>;
 	description: string | null;
 	displayName: string;
+	displayOrder: Generated<number>;
 	identifier: string;
 	updatedAt: Generated<Timestamp>;
 }
@@ -24,6 +25,7 @@ export interface Roles {
 	createdAt: Generated<Timestamp>;
 	description: string | null;
 	displayName: string;
+	displayOrder: Generated<number>;
 	identifier: string;
 	updatedAt: Generated<Timestamp>;
 }

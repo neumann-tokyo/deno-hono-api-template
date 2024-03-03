@@ -1,0 +1,68 @@
+begin
+;
+
+
+insert into
+  permissions (
+    identifier,
+    display_name,
+    description,
+    display_order,
+    created_at,
+    updated_at
+  )
+values
+  (
+    'sign_in',
+    'Sign in',
+    'Sign in the system',
+    0,
+    now(),
+    now()
+  );
+
+
+insert into
+  roles (
+    identifier,
+    display_name,
+    description,
+    display_order,
+    created_at,
+    updated_at
+  )
+values
+  (
+    'admin',
+    'Administrator',
+    'Administrator',
+    0,
+    now(),
+    now()
+  ),
+  (
+    'general',
+    'General user',
+    'General user',
+    1,
+    now(),
+    now()
+  ),
+  (
+    'rejected',
+    'Rejected user',
+    'Rejected user',
+    2,
+    now(),
+    now()
+  );
+
+
+insert into
+  roles_permissions (role_identifier, permission_identifier)
+values
+  ('admin', 'sign_in'),
+  ('general', 'sign_in');
+
+
+end;

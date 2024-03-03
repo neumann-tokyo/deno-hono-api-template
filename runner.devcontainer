@@ -11,8 +11,14 @@ psql postgresql://postgres:password@db:5432/development?sslmode=disable
 migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable up
 deno task kysely-codegen
 ;;
+"migrate:rollback") ## migrate
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable down
+;;
 "migrate:test") ## migrate test
 migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable up
+;;
+"migrate:test:rollback") ## migrate test
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable down
 ;;
 "db:seed") ##
 for sql in db/seeds/{01_share,development}/*.sql; do

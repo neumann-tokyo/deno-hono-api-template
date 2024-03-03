@@ -2,15 +2,17 @@
 	"tasks": {
 		"dev": "deno run --allow-net --allow-env src/index.ts",
 		"kysely-codegen": "echo \"import 'npm:pg@^8.11.3'; import 'npm:kysely-codegen@^0.11.0';\" | deno run --allow-env -A npm:kysely-codegen@^0.11.0 - kysely-codegen --dialect=postgres --out-file ./src/database-types.ts --env-file .env --camel-case",
-		"test": "DENO_ENV=test deno test -A"
+		"test": "./tools/load-seeds-in-test.bash; DENO_ENV=test deno test -A; ./tools/cleanup-testdb.bash",
+		"password-digest": "deno run tools/password-digest.ts"
 	},
 	"imports": {
+		"bcrypt": "https://deno.land/x/bcrypt@v0.4.1/mod.ts",
 		"hono": "https://deno.land/x/hono@v4.0.1",
 		"hono/": "https://deno.land/x/hono@v4.0.1/",
 		"kysely": "npm:kysely@^0.23.4",
-		"postgres": "https://deno.land/x/postgres@v0.17.0/mod.ts",
 		"pg-pool": "npm:pg-pool@^3.6.1",
 		"pg": "npm:pg@^8.11.3",
+		"postgres": "https://deno.land/x/postgres@v0.17.0/mod.ts",
 		"spacetime": "npm:spacetime@^7.5.0",
 		"std/": "https://deno.land/std@0.217.0/"
 	},

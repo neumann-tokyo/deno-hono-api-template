@@ -20,6 +20,7 @@ create table
     identifier varchar(100) primary key,
     display_name varchar(100) not null,
     description varchar(500),
+    display_order integer not null default 0,
     created_at timestamp not null default now(),
     updated_at timestamp not null default now()
   );
@@ -30,6 +31,7 @@ create table
     identifier varchar(100) primary key,
     display_name varchar(100) not null,
     description varchar(500),
+    display_order integer not null default 0,
     created_at timestamp not null default now(),
     updated_at timestamp not null default now()
   );
