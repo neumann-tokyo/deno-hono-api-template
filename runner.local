@@ -19,7 +19,7 @@ sleep 3
 ;;
 "migrate") ## migrate
 ${DC} exec server migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable up
-${DC} exec server deno task kysely-codegen
+#${DC} exec server deno task kysely-codegen
 ;;
 "migrate:test") ## migrate test
 ${DC} exec server migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable up

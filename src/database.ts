@@ -2,24 +2,15 @@ import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
 import Pool from "pg-pool";
 import { DB } from "./database-types.ts";
 
-// const dialect = new PostgresDialect({
-// 	pool: new Pool({
-// 		connectionString:
-// 			Deno.env.get("DENO_ENV") === "test"
-// 				? Deno.env.get("TEST_DB_URL")
-// 				: Deno.env.get("DATABASE_URL"),
-// 	}),
-// });
-
 const dialect = new PostgresDialect({
 	pool: new Pool({
-		database: "test",
-		host: "db",
-		user: "postgres",
-		port: 5432,
-		password: "password",
-		ssl: false,
-		max: 10,
+		connectionString:
+			Deno.env.get("DENO_ENV") === "test"
+				? Deno.env.get("TEST_DB_URL")
+				: Deno.env.get("DATABASE_URL"),
+		max: 20,
+		idleTimeoutMillis: 30000,
+		connectionTimeoutMillis: 2000,
 	}),
 });
 
