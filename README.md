@@ -12,3 +12,5 @@ deno task dev
 - [x] [migrate](https://github.com/golang-migrate/migrate)
 - [x] [Biome](https://biomejs.dev)
 - [ ] SignIn
+- [ ] 権限管理
+- [ ]

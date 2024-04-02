@@ -18,7 +18,7 @@ values
     1,
     'admin1@example.com',
     -- password
-    '$2a$15$C84Kj2BR6YhI/7mqMHUjcu8/NnBY01UIn7md8p5Gb1havr0GTykwO',
+    '$2a$15$G6wLTu4ad1Hjxdb4hCE/1.0AQdaheG.IB0rJQyBuEKWDEbPgJOf82',
     'Administrator',
     'Asia/Tokyo',
     'en_US',
@@ -29,7 +29,7 @@ values
     2,
     'general1@example.com',
     -- password
-    '$2a$15$C84Kj2BR6YhI/7mqMHUjcu8/NnBY01UIn7md8p5Gb1havr0GTykwO',
+    '$2a$15$G6wLTu4ad1Hjxdb4hCE/1.0AQdaheG.IB0rJQyBuEKWDEbPgJOf82',
     'General user',
     'Asia/Tokyo',
     'en_US',
@@ -40,7 +40,7 @@ values
     3,
     'rejected1@example.com',
     -- password
-    '$2a$15$C84Kj2BR6YhI/7mqMHUjcu8/NnBY01UIn7md8p5Gb1havr0GTykwO',
+    '$2a$15$G6wLTu4ad1Hjxdb4hCE/1.0AQdaheG.IB0rJQyBuEKWDEbPgJOf82',
     'Rejected user',
     'Asia/Tokyo',
     'en_US',

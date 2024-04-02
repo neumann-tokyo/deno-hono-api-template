@@ -1,3 +1,4 @@
+import * as bcrypt from "bcrypt";
 import { db } from "../database.ts";
 
 export enum Languages {
@@ -32,12 +33,15 @@ export async function create({
 	language?: string;
 	timezone?: string;
 }) {
+	const salt = await bcrypt.genSalt(15);
+	const passwordDigest = await bcrypt.hash(password, salt);
+
 	return await db
 		.insertInto("users")
 		.values({
 			displayName,
 			email,
-			passwordDigest: "password", // TODO bcrypt
+			passwordDigest,
 			language: language || Languages.English,
 			timezone: timezone || Timezone.AsiaTokyo,
 		})
