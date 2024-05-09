@@ -48,3 +48,29 @@ export async function create({
 		.returningAll()
 		.executeTakeFirst();
 }
+
+export async function signIn({
+	email,
+	password,
+}: {
+	email: string;
+	password: string;
+}) {
+	const user = await db
+		.selectFrom("users")
+		.where("email", "=", email)
+		.selectAll()
+		.executeTakeFirst();
+
+	if (!user) {
+		return null;
+	}
+
+	const isPasswordValid = await bcrypt.compare(password, user.passwordDigest);
+
+	if (!isPasswordValid) {
+		return null;
+	}
+
+	return user;
+}
