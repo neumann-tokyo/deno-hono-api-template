@@ -15,7 +15,8 @@
 		"postgres": "https://deno.land/x/postgres@v0.17.0/mod.ts",
 		"spacetime": "npm:spacetime@^7.5.0",
 		"std/": "https://deno.land/std@0.217.0/",
-		"deno_mocha": "https://deno.land/x/deno_mocha@0.3.1/mod.ts"
+		"deno_mocha": "https://deno.land/x/deno_mocha@0.3.1/mod.ts",
+		"djwt": "https://deno.land/x/djwt@v3.0.2/mod.ts"
 	},
 	"lint": {
 		"rules": {
