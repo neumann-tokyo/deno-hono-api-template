@@ -30,11 +30,10 @@ app.post("/sign-in", async (c) => {
 	return c.json({ message: "Invalid email or password" }, 401);
 });
 
-app.get("/me", async (c) => {
-	const payload = c.get("jwtPayload");
-	console.log(payload);
+app.get("/me", (c) => {
+	const { passwordDigest: _, ...user } = c.get("currentUser");
 
-	return c.json({ ok: true });
+	return c.json(user);
 });
 
 export const usersRoute = app;

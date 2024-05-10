@@ -3,7 +3,8 @@
 		"dev": "deno run -A src/index.ts",
 		"kysely-codegen": "echo \"import 'npm:pg@^8.11.3'; import 'npm:kysely-codegen@^0.11.0';\" | deno run --allow-env -A npm:kysely-codegen@^0.11.0 - kysely-codegen --dialect=postgres --out-file ./src/database-types.ts --env-file .env --camel-case",
 		"test": "./tools/load-seeds-in-test.bash; DENO_ENV=test deno test -A test/**/*.test.ts; ./tools/cleanup-testdb.bash",
-		"password-digest": "deno run tools/password-digest.ts"
+		"password-digest": "deno run tools/password-digest.ts",
+		"generate-jwt-keys": "deno run -A tools/generate-jwt-key.ts"
 	},
 	"imports": {
 		"bcrypt": "https://deno.land/x/bcrypt@v0.4.1/mod.ts",
