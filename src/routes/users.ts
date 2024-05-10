@@ -1,15 +1,9 @@
 import * as djwt from "djwt";
 import { Hono } from "hono/mod.ts";
+import { algName, jwtPrivateKey } from "../libs/crypto.ts";
 import * as modelUsers from "../models/users.ts";
 
 const app = new Hono();
-// TODO check if this is the correct way to generate the key
-// @see https://github.com/Zaubrik/djwt/blob/master/examples/
-const jwtKey = await crypto.subtle.generateKey(
-	{ name: "HMAC", hash: "SHA-512" },
-	true,
-	["sign", "verify"],
-);
 
 app.post("/sign-in", async (c) => {
 	const body = await c.req.json();
@@ -21,19 +15,26 @@ app.post("/sign-in", async (c) => {
 	if (user) {
 		const token = await djwt.create(
 			{
-				alg: "HS512",
+				alg: algName,
 				typ: "JWT",
 			},
 			{
 				sub: user.id.toString(),
 				exp: djwt.getNumericDate(60 * 60 * 24 * 30),
 			},
-			jwtKey,
+			await jwtPrivateKey(),
 		);
 		return c.json({ user, token });
 	}
 
 	return c.json({ message: "Invalid email or password" }, 401);
+});
+
+app.get("/me", async (c) => {
+	const payload = c.get("jwtPayload");
+	console.log(payload);
+
+	return c.json({ ok: true });
 });
 
 export const usersRoute = app;
