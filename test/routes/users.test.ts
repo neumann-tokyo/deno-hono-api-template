@@ -1,11 +1,8 @@
 import { afterAll, describe, it } from "deno_mocha";
-import { Hono } from "hono/mod.ts";
 import { assertEquals, assertExists } from "std/assert/mod.ts";
+import { app } from "../../src/app.ts";
 import { db } from "../../src/database.ts";
-import { usersRoute } from "../../src/routes/users.ts";
-
-const app = new Hono();
-app.route("/users", usersRoute);
+import { generateJwtToken } from "../../src/libs/crypto.ts";
 
 describe("user routes", () => {
 	afterAll(async () => {
@@ -48,6 +45,24 @@ describe("user routes", () => {
 			assertEquals(res.status, 401);
 			assertExists(!resBody.user);
 			assertExists(!resBody.token);
+		});
+	});
+
+	describe("GET /users/me", () => {
+		it("200 success", async () => {
+			const token = await generateJwtToken({ userId: 1 });
+			const res = await app.request("/users/me", {
+				headers: {
+					Authorization: `bearer ${token}`,
+				},
+			});
+
+			const resBody = await res.json();
+
+			assertEquals(res.status, 200);
+			assertEquals(resBody.email, "admin1@example.com");
+			assertEquals(resBody.displayName, "Administrator");
+			assertExists(!resBody.passwordDigest);
 		});
 	});
 });

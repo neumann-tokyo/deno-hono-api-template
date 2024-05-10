@@ -1,6 +1,6 @@
-import * as djwt from "djwt";
 import { Hono } from "hono/mod.ts";
-import { algName, jwtPrivateKey } from "../libs/crypto.ts";
+import type { Users } from "../database-types.ts";
+import { generateJwtToken } from "../libs/crypto.ts";
 import * as modelUsers from "../models/users.ts";
 
 const app = new Hono();
@@ -13,17 +13,7 @@ app.post("/sign-in", async (c) => {
 	});
 
 	if (user) {
-		const token = await djwt.create(
-			{
-				alg: algName,
-				typ: "JWT",
-			},
-			{
-				sub: user.id.toString(),
-				exp: djwt.getNumericDate(60 * 60 * 24 * 30),
-			},
-			await jwtPrivateKey(),
-		);
+		const token = await generateJwtToken({ userId: user.id });
 		return c.json({ user, token });
 	}
 
@@ -31,9 +21,17 @@ app.post("/sign-in", async (c) => {
 });
 
 app.get("/me", (c) => {
-	const { passwordDigest: _, ...user } = c.get("currentUser");
+	//@ts-ignore: c.get is a feature of hono
+	const user = c.get("currentUser") as Users;
+	const publicInformation = {
+		id: user.id,
+		displayName: user.displayName,
+		email: user.email,
+		language: user.language,
+		timezone: user.timezone,
+	};
 
-	return c.json(user);
+	return c.json(publicInformation);
 });
 
 export const usersRoute = app;

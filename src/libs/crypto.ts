@@ -1,12 +1,13 @@
+import * as djwt from "djwt";
 import { decodeBase64 } from "std/encoding/base64.ts";
 
 export const algName = "ES384";
-
 export const cryptoMethod = {
 	name: "ECDSA",
 	namedCurve: "P-384",
 	hash: { name: "SHA-384" },
 };
+export const expire = 60 * 60 * 24 * 30;
 
 export async function jwtPrivateKey() {
 	const pem = await Deno.readTextFile("./jwt-key.pem");
@@ -34,4 +35,18 @@ export async function jwtPublicKey() {
 	return crypto.subtle.importKey("spki", binaryDer, cryptoMethod, true, [
 		"verify",
 	]);
+}
+
+export async function generateJwtToken({ userId }) {
+	return await djwt.create(
+		{
+			alg: algName,
+			typ: "JWT",
+		},
+		{
+			sub: userId.toString(),
+			exp: djwt.getNumericDate(expire),
+		},
+		await jwtPrivateKey(),
+	);
 }
