@@ -1,11 +1,11 @@
-import { after, describe, it } from "deno_mocha";
+import { afterAll, describe, it } from "deno_mocha";
 import { assertEquals, assertExists } from "std/assert/mod.ts";
 import * as uuid from "std/uuid/mod.ts";
 import { db } from "../../src/database.ts";
 import * as modelsUser from "../../src/models/users.ts";
 
-describe("database", () => {
-	after(async () => {
+describe("user model", () => {
+	afterAll(async () => {
 		await db.destroy();
 	});
 

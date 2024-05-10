@@ -12,7 +12,7 @@ const jwtKey = await crypto.subtle.generateKey(
 );
 
 app.post("/sign-in", async (c) => {
-	const body = await c.req.parseBody();
+	const body = await c.req.json();
 	const user = await modelUsers.signIn({
 		email: body.email as string,
 		password: body.password as string,
