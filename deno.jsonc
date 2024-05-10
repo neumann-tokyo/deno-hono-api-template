@@ -8,8 +8,8 @@
 	},
 	"imports": {
 		"bcrypt": "https://deno.land/x/bcrypt@v0.4.1/mod.ts",
-		"hono": "https://deno.land/x/hono@v4.0.1",
-		"hono/": "https://deno.land/x/hono@v4.0.1/",
+		"hono": "https://deno.land/x/hono@v4.3.4",
+		"hono/": "https://deno.land/x/hono@v4.3.4/",
 		"kysely": "npm:kysely@^0.23.4",
 		"pg-pool": "npm:pg-pool@^3.6.1",
 		"pg": "npm:pg@^8.11.3",
