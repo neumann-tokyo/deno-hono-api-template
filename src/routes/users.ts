@@ -45,4 +45,30 @@ app.get("/me", (c) => {
 	return c.json(publicInformation);
 });
 
+const meSchema = z.object({
+	email: z.string().email().min(5),
+	displayName: z.string().min(2).max(20),
+	language: z.string().max(100),
+	timezone: z.string().max(100),
+});
+app.post("/me/update", async (c) => {
+	const body = await c.req.json();
+	const vResult = meSchema.safeParse(body);
+	const user = c.get("currentUser") as Users;
+
+	if (vResult.success === false) {
+		return c.json(vResult, 400);
+	}
+
+	const updatedUser = await modelUsers.update({
+		id: Number(user.id),
+		displayName: body.displayName,
+		email: body.email,
+		language: body.language,
+		timezone: body.timezone,
+	});
+
+	return c.json({ success: true, user: updatedUser }, 200);
+});
+
 export const usersRoute = app;

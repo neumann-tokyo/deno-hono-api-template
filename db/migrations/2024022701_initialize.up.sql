@@ -5,9 +5,9 @@ begin
 create table
   users (
     id serial primary key,
-    email varchar(500) unique not null,
+    email varchar(100) unique not null,
     password_digest varchar(100) not null,
-    display_name varchar(500) not null,
+    display_name varchar(100) not null,
     timezone varchar(100) not null default 'Asia/Tokyo',
     language varchar(100) not null default 'English',
     created_at timestamp not null default now(),

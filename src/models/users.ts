@@ -1,17 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { db } from "../database.ts";
 
-export enum Languages {
-	English = "en_US",
-	Japanese = "ja_JP",
-}
-
-export enum Timezone {
-	EuropeLondon = "Europe/London",
-	AsiaTokyo = "Asia/Tokyo",
-	AmericaLosAngeles = "America/Los_Angeles",
-}
-
 export async function findById(id: number) {
 	return await db
 		.selectFrom("users")
@@ -42,9 +31,35 @@ export async function create({
 			displayName,
 			email,
 			passwordDigest,
-			language: language || Languages.English,
-			timezone: timezone || Timezone.AsiaTokyo,
+			language: language || "en_US",
+			timezone: timezone || "Asia/Tokyo",
 		})
+		.returningAll()
+		.executeTakeFirst();
+}
+
+export async function update({
+	id,
+	displayName,
+	email,
+	language,
+	timezone,
+}: {
+	id: number;
+	displayName: string;
+	email: string;
+	language?: string;
+	timezone?: string;
+}) {
+	return await db
+		.updateTable("users")
+		.set({
+			displayName,
+			email,
+			language: language || "en_US",
+			timezone: timezone || "Asia/Tokyo",
+		})
+		.where("id", "=", id)
 		.returningAll()
 		.executeTakeFirst();
 }
