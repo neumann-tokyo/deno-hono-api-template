@@ -18,7 +18,6 @@ export const jwtTokenChecker = createMiddleware(async (c, next) => {
 	}
 
 	const jwtToken = c.req.header()?.authorization?.split(" ")[1];
-	console.log(jwtToken);
 	if (jwtToken == null) {
 		return c.json({ message: "Not Authorized" }, 401);
 	}
@@ -26,10 +25,9 @@ export const jwtTokenChecker = createMiddleware(async (c, next) => {
 	const payload = await verify(jwtToken, await jwtPublicKey());
 
 	if (payload?.sub) {
-		console.log("payload", payload);
 		if (payload.exp) {
-			const exp = spacetime(payload.exp * 1000, "Asia/Tokyo");
-			const now = spacetime.now("Asia/Tokyo");
+			const exp = spacetime(payload.exp * 1000).goto("Asia/Tokyo");
+			const now = spacetime.now().goto("Asia/Tokyo");
 
 			if (now.isBefore(exp)) {
 				const user = await modelUsers.findById(Number.parseInt(payload?.sub));
