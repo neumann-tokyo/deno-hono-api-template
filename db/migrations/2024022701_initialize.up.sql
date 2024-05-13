@@ -9,7 +9,8 @@ create table
     password_digest varchar(100) not null,
     display_name varchar(100) not null,
     timezone varchar(100) not null default 'Asia/Tokyo',
-    language varchar(100) not null default 'English',
+    language varchar(100) not null default 'en_US',
+    datetime_format varchar(100) not null default '{month} {date-ordinal} {year}',
     created_at timestamp not null default now(),
     updated_at timestamp not null default now()
   );

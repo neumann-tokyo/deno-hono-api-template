@@ -40,6 +40,7 @@ app.get("/me", (c) => {
 		email: user.email,
 		language: user.language,
 		timezone: user.timezone,
+		datetimeFormat: user.datetimeFormat,
 	};
 
 	return c.json(publicInformation);
@@ -50,6 +51,7 @@ const meSchema = z.object({
 	displayName: z.string().min(2).max(20),
 	language: z.string().max(100),
 	timezone: z.string().max(100),
+	datetimeFormat: z.string().max(100),
 });
 app.post("/me/update", async (c) => {
 	const body = await c.req.json();
@@ -66,6 +68,7 @@ app.post("/me/update", async (c) => {
 		email: body.email,
 		language: body.language,
 		timezone: body.timezone,
+		datetimeFormat: body.datetimeFormat,
 	});
 
 	return c.json({ success: true, user: updatedUser }, 200);

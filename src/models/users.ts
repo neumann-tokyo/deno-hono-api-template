@@ -15,12 +15,14 @@ export async function create({
 	password,
 	language,
 	timezone,
+	datetimeFormat,
 }: {
 	displayName: string;
 	email: string;
 	password: string;
 	language?: string;
 	timezone?: string;
+	datetimeFormat?: string;
 }) {
 	const salt = await bcrypt.genSalt(15);
 	const passwordDigest = await bcrypt.hash(password, salt);
@@ -31,8 +33,9 @@ export async function create({
 			displayName,
 			email,
 			passwordDigest,
-			language: language || "en_US",
-			timezone: timezone || "Asia/Tokyo",
+			language,
+			timezone,
+			datetimeFormat,
 		})
 		.returningAll()
 		.executeTakeFirst();
@@ -44,20 +47,23 @@ export async function update({
 	email,
 	language,
 	timezone,
+	datetimeFormat,
 }: {
 	id: number;
 	displayName: string;
 	email: string;
-	language?: string;
-	timezone?: string;
+	language: string;
+	timezone: string;
+	datetimeFormat: string;
 }) {
 	return await db
 		.updateTable("users")
 		.set({
 			displayName,
 			email,
-			language: language || "en_US",
-			timezone: timezone || "Asia/Tokyo",
+			language,
+			timezone,
+			datetimeFormat,
 		})
 		.where("id", "=", id)
 		.returningAll()

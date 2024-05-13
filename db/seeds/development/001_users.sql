@@ -8,8 +8,6 @@ insert into
     email,
     password_digest,
     display_name,
-    timezone,
-    language,
     created_at,
     updated_at
   )
@@ -20,8 +18,6 @@ values
     -- password
     '$2a$15$G6wLTu4ad1Hjxdb4hCE/1.0AQdaheG.IB0rJQyBuEKWDEbPgJOf82',
     'Administrator',
-    'Asia/Tokyo',
-    'en_US',
     now(),
     now()
   ),
@@ -31,8 +27,6 @@ values
     -- password
     '$2a$15$G6wLTu4ad1Hjxdb4hCE/1.0AQdaheG.IB0rJQyBuEKWDEbPgJOf82',
     'General user',
-    'Asia/Tokyo',
-    'en_US',
     now(),
     now()
   ),
@@ -42,8 +36,6 @@ values
     -- password
     '$2a$15$G6wLTu4ad1Hjxdb4hCE/1.0AQdaheG.IB0rJQyBuEKWDEbPgJOf82',
     'Rejected user',
-    'Asia/Tokyo',
-    'en_US',
     now(),
     now()
   );

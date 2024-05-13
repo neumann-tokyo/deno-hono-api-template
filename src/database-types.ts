@@ -44,6 +44,7 @@ export interface SchemaMigrations {
 
 export interface Users {
 	createdAt: Generated<Timestamp>;
+	datetimeFormat: Generated<string>;
 	displayName: string;
 	email: string;
 	id: Generated<number>;

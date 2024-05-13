@@ -66,7 +66,7 @@
 					"editor.defaultFormatter": "lea21st.vscode-sql-formatter"
 				},
 				"sql-formatter.dialect": "postgresql",
-				"workbench.colorTheme": "GitHub Dark Colorblind (Beta)"
+				"workbench.colorTheme": "GitHub Dark Default"
 			}
 		}
 	}
