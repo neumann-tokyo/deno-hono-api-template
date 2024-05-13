@@ -42,6 +42,15 @@ export interface SchemaMigrations {
 	version: Int8;
 }
 
+export interface Todos {
+	createdAt: Generated<Timestamp>;
+	finishedAt: Timestamp | null;
+	id: Generated<number>;
+	title: string;
+	updatedAt: Generated<Timestamp>;
+	userId: number | null;
+}
+
 export interface Users {
 	createdAt: Generated<Timestamp>;
 	datetimeFormat: Generated<string>;
@@ -66,6 +75,7 @@ export interface DB {
 	roles: Roles;
 	rolesPermissions: RolesPermissions;
 	schemaMigrations: SchemaMigrations;
+	todos: Todos;
 	users: Users;
 	usersRoles: UsersRoles;
 }
