@@ -14,8 +14,8 @@ sleep 3
 ./runner.local migrate
 sleep 3
 ./runner.local migrate:test
-# sleep 3
-# ./runner.local db:seed
+sleep 3
+./runner.local db:seed
 ;;
 "migrate") ## migrate
 ${DC} exec server migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable up

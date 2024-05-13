@@ -18,8 +18,6 @@
 				"huizhou.githd",
 				"naumovs.color-highlight",
 				"lea21st.vscode-sql-formatter",
-				"GitHub.github-vscode-theme",
-				"GitHub.copilot",
 				"biomejs.biome"
 			],
 			"settings": {
@@ -66,7 +64,7 @@
 					"editor.defaultFormatter": "lea21st.vscode-sql-formatter"
 				},
 				"sql-formatter.dialect": "postgresql",
-				"workbench.colorTheme": "GitHub Dark Default"
+				"workbench.colorTheme": "Default Dark Modern"
 			}
 		}
 	}

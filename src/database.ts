@@ -1,9 +1,7 @@
 import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
-import Logger from "logger";
 import Pool from "pg-pool";
 import type { DB } from "./database-types.ts";
-
-const logger = new Logger();
+import { clerk } from "./libs/clerk.ts";
 
 const dialect = new PostgresDialect({
 	pool: new Pool({
@@ -22,7 +20,7 @@ export const db = new Kysely<DB>({
 	plugins: [new CamelCasePlugin()],
 	log: (log) => {
 		if (log.level === "query") {
-			logger.info("SQL", log.query.sql);
+			clerk.info("SQL", log.query.sql);
 		}
 	},
 });
