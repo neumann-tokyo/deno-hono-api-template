@@ -2,6 +2,7 @@ import { cors } from "hono/middleware.ts";
 import { Hono } from "hono/mod.ts";
 import { honoLoggerMiddleware } from "./libs/clerk.ts";
 import { jwtTokenChecker } from "./middleware/jwt-token-checker.ts";
+import { rolesRoute } from "./routes/roles.ts";
 import { todosRoute } from "./routes/todos.ts";
 import { usersRoute } from "./routes/users.ts";
 
@@ -18,3 +19,4 @@ app.use(honoLoggerMiddleware);
 app.use(jwtTokenChecker);
 app.route("/users", usersRoute);
 app.route("/todos", todosRoute);
+app.route("/roles", rolesRoute);

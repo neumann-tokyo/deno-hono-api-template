@@ -25,8 +25,8 @@ app.post("/sign-in", async (c) => {
 
 	if (user) {
 		const hasSignInPermission = await modelUsers.hasPermission(
-			"sign_in",
 			user.id,
+			"sign_in",
 		);
 
 		if (hasSignInPermission) {

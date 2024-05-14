@@ -42,4 +42,14 @@ describe("user model", () => {
 
 		assertExists(!invalidUser);
 	});
+
+	it("addRole and removeRole", async () => {
+		assertEquals(await modelsUser.hasPermission(3, "sign_in"), false);
+
+		await modelsUser.addRole(3, "general");
+		assertEquals(await modelsUser.hasPermission(3, "sign_in"), true);
+
+		await modelsUser.removeRole(3, "general");
+		assertEquals(await modelsUser.hasPermission(3, "sign_in"), false);
+	});
 });

@@ -32,6 +32,7 @@ export async function finish(todoId: number) {
 		.updateTable("todos")
 		.set({
 			finishedAt: new Date(),
+			updatedAt: new Date(),
 		})
 		.where("id", "=", todoId)
 		.returningAll()

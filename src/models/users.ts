@@ -84,6 +84,7 @@ export async function update({
 			language,
 			timezone,
 			datetimeFormat,
+			updatedAt: new Date(),
 		})
 		.where("id", "=", id)
 		.returningAll()
@@ -117,8 +118,8 @@ export async function signIn({
 }
 
 export async function hasPermission(
-	permissionIdentifier: string,
 	userId: number,
+	permissionIdentifier: string,
 ) {
 	const usersRole = await db
 		.selectFrom("usersRoles")
@@ -133,4 +134,34 @@ export async function hasPermission(
 		.executeTakeFirst();
 
 	return usersRole != null;
+}
+
+export async function addRole(userId: number, roleIdentifier: string) {
+	const existing = await db
+		.selectFrom("usersRoles")
+		.where("userId", "=", userId)
+		.where("roleIdentifier", "=", roleIdentifier)
+		.selectAll()
+		.executeTakeFirst();
+	if (existing) {
+		return existing;
+	}
+
+	return await db
+		.insertInto("usersRoles")
+		.values({
+			userId,
+			roleIdentifier,
+		})
+		.returningAll()
+		.executeTakeFirst();
+}
+
+export async function removeRole(userId: number, roleIdentifier: string) {
+	return await db
+		.deleteFrom("usersRoles")
+		.where("userId", "=", userId)
+		.where("roleIdentifier", "=", roleIdentifier)
+		.returningAll()
+		.execute();
 }
