@@ -29,7 +29,7 @@ describe("user routes", () => {
 			assertExists(resBody.token);
 		});
 
-		it("401 Unauthorized", async () => {
+		it("401 Unauthorized by invalid password", async () => {
 			const res = await app.request("/users/sign-in", {
 				method: "POST",
 				headers: {
@@ -38,6 +38,24 @@ describe("user routes", () => {
 				body: JSON.stringify({
 					email: "admin1@example.com",
 					password: "invalid password",
+				}),
+			});
+			const resBody = await res.json();
+
+			assertEquals(res.status, 401);
+			assertExists(!resBody.user);
+			assertExists(!resBody.token);
+		});
+
+		it("401 by rejected user", async () => {
+			const res = await app.request("/users/sign-in", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email: "rejected1@example.com",
+					password: "password",
 				}),
 			});
 			const resBody = await res.json();
