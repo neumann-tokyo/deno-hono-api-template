@@ -24,8 +24,6 @@ describe("user routes", () => {
 			const resBody = await res.json();
 
 			assertEquals(res.status, 200);
-			assertEquals(resBody.user.email, "admin1@example.com");
-			assertEquals(resBody.user.id, 1);
 			assertExists(resBody.token);
 		});
 

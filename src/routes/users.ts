@@ -31,7 +31,7 @@ app.post("/sign-in", async (c) => {
 
 		if (hasSignInPermission) {
 			const token = await generateJwtToken({ userId: user.id });
-			return c.json({ user, token });
+			return c.json({ token });
 		}
 	}
 
@@ -40,6 +40,7 @@ app.post("/sign-in", async (c) => {
 
 app.get("/me", (c) => {
 	const user = c.get("currentUser") as Users;
+	const permissions = c.get("currentPermissions") as string[];
 	const publicInformation = {
 		id: user.id,
 		displayName: user.displayName,
@@ -47,6 +48,7 @@ app.get("/me", (c) => {
 		language: user.language,
 		timezone: user.timezone,
 		datetimeFormat: user.datetimeFormat,
+		permissions,
 	};
 
 	return c.json(publicInformation);
