@@ -19,6 +19,22 @@ values
     0,
     now(),
     now()
+  ),
+  (
+    'roles',
+    'Edit roles and permissions',
+    'Edit roles and permissions',
+    1,
+    now(),
+    now()
+  ),
+  (
+    'todos',
+    'Use todos feature',
+    'Use todos feature',
+    2,
+    now(),
+    now()
   );
 
 
@@ -62,7 +78,10 @@ insert into
   roles_permissions (role_identifier, permission_identifier)
 values
   ('admin', 'sign_in'),
-  ('general', 'sign_in');
+  ('admin', 'roles'),
+  ('admin', 'todos'),
+  ('general', 'sign_in'),
+  ('general', 'todos');
 
 
 end;

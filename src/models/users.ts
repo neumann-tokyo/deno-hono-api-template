@@ -9,6 +9,26 @@ export async function findById(id: number) {
 		.executeTakeFirst();
 }
 
+export async function findByIdWithPermissions(id: number) {
+	const user = await db
+		.selectFrom("users")
+		.where("id", "=", id)
+		.selectAll()
+		.executeTakeFirst();
+	const permissions = await db
+		.selectFrom("usersRoles")
+		.innerJoin(
+			"rolesPermissions",
+			"rolesPermissions.roleIdentifier",
+			"usersRoles.roleIdentifier",
+		)
+		.where("usersRoles.userId", "=", id)
+		.select("rolesPermissions.permissionIdentifier")
+		.execute();
+
+	return { user, permissions: permissions.map((p) => p.permissionIdentifier) };
+}
+
 export async function create({
 	displayName,
 	email,
@@ -94,4 +114,23 @@ export async function signIn({
 	}
 
 	return user;
+}
+
+export async function hasPermission(
+	permissionIdentifier: string,
+	userId: number,
+) {
+	const usersRole = await db
+		.selectFrom("usersRoles")
+		.innerJoin(
+			"rolesPermissions",
+			"rolesPermissions.roleIdentifier",
+			"usersRoles.roleIdentifier",
+		)
+		.where("usersRoles.userId", "=", userId)
+		.where("rolesPermissions.permissionIdentifier", "=", permissionIdentifier)
+		.select("usersRoles.userId")
+		.executeTakeFirst();
+
+	return usersRole != null;
 }

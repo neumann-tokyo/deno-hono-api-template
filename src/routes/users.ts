@@ -24,15 +24,21 @@ app.post("/sign-in", async (c) => {
 	});
 
 	if (user) {
-		const token = await generateJwtToken({ userId: user.id });
-		return c.json({ user, token });
+		const hasSignInPermission = await modelUsers.hasPermission(
+			"sign_in",
+			user.id,
+		);
+
+		if (hasSignInPermission) {
+			const token = await generateJwtToken({ userId: user.id });
+			return c.json({ user, token });
+		}
 	}
 
 	return c.json({ message: "Invalid email or password" }, 401);
 });
 
 app.get("/me", (c) => {
-	//@ts-ignore: c.get is a feature of hono
 	const user = c.get("currentUser") as Users;
 	const publicInformation = {
 		id: user.id,

@@ -9,6 +9,7 @@ import * as modelUsers from "../models/users.ts";
 declare module "hono/context.ts" {
 	interface ContextVariableMap {
 		currentUser: Users;
+		currentPermissions: string[];
 	}
 }
 
@@ -30,10 +31,13 @@ export const jwtTokenChecker = createMiddleware(async (c, next) => {
 			const now = spacetime.now().goto("Asia/Tokyo");
 
 			if (now.isBefore(exp)) {
-				const user = await modelUsers.findById(Number.parseInt(payload?.sub));
+				const { user, permissions } = await modelUsers.findByIdWithPermissions(
+					Number.parseInt(payload?.sub),
+				);
 
-				if (user) {
+				if (user && permissions && permissions.includes("sign_in")) {
 					c.set("currentUser", user);
+					c.set("currentPermissions", permissions);
 					return await next();
 				}
 			}
