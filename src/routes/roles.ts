@@ -1,6 +1,5 @@
 import { Hono } from "hono/mod.ts";
 import { z } from "zod";
-import type { Roles } from "../database-types.ts";
 import { permissionChecker } from "../middleware/permission-checker.ts";
 import * as modelRoles from "../models/roles.ts";
 

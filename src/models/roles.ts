@@ -52,6 +52,7 @@ export async function findAll() {
 		.selectFrom("roles")
 		.orderBy("displayOrder")
 		.selectAll()
+		.orderBy("displayOrder")
 		.execute();
 }
 
@@ -70,6 +71,7 @@ export async function findByIdentifier(identifier: string) {
 		)
 		.where("rolesPermissions.roleIdentifier", "=", identifier)
 		.selectAll("permissions")
+		.orderBy("displayOrder")
 		.execute();
 	return { role, permissions };
 }
