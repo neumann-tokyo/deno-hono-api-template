@@ -83,7 +83,7 @@ app.post("/me/update", async (c) => {
 	return c.json({ success: true, user: updatedUser }, 200);
 });
 
-app.get("/", permissionChecker("management_users"), async (c) => {
+app.get("/", permissionChecker("users_management"), async (c) => {
 	const users = await modelUsers.findAll();
 	return c.json(users);
 });
@@ -91,9 +91,9 @@ app.get("/", permissionChecker("management_users"), async (c) => {
 const updateUserRolesSchema = z.object({
 	roles: z.array(z.string()),
 });
-app.get(
+app.post(
 	"/:id/update_roles",
-	permissionChecker("management_users"),
+	permissionChecker("users_management"),
 	async (c) => {
 		const userId = c.req.param("id");
 		const body = await c.req.json();
