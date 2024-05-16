@@ -135,6 +135,21 @@ export async function signIn({
 	return user;
 }
 
+export async function leave(id: number) {
+	return await db.transaction().execute(async (tr) => {
+		await tr.deleteFrom("usersRoles").where("userId", "=", id).execute();
+		await tr
+			.insertInto("usersRoles")
+			.values({ userId: id, roleIdentifier: "leaved" })
+			.execute();
+		return await tr
+			.selectFrom("users")
+			.where("id", "=", id)
+			.selectAll()
+			.executeTakeFirst();
+	});
+}
+
 export async function hasPermission(
 	userId: number,
 	permissionIdentifier: string,

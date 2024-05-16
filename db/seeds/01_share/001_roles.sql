@@ -79,6 +79,14 @@ values
     2,
     now(),
     now()
+  ),
+  (
+    'leaved',
+    'Leaved user',
+    'Leaved user',
+    3,
+    now(),
+    now()
   );
 
 

@@ -39,6 +39,12 @@ app.post("/sign-in", async (c) => {
 	return c.json({ message: "Invalid email or password" }, 401);
 });
 
+app.post("leave", async (c) => {
+	const user = c.get("currentUser") as Users;
+	const deletedUser = await modelUsers.leave(user.id);
+	return c.json(deletedUser);
+});
+
 app.get("/me", (c) => {
 	const user = c.get("currentUser") as Users;
 	const permissions = c.get("currentPermissions") as string[];
