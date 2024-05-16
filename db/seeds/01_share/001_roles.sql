@@ -29,10 +29,18 @@ values
     now()
   ),
   (
+    'users_management',
+    'users management',
+    'manage users',
+    2,
+    now(),
+    now()
+  ),
+  (
     'todos',
     'Use todos feature',
     'Use todos feature',
-    2,
+    3,
     now(),
     now()
   );
@@ -79,6 +87,7 @@ insert into
 values
   ('admin', 'sign_in'),
   ('admin', 'roles'),
+  ('admin', 'users_management'),
   ('admin', 'todos'),
   ('general', 'sign_in'),
   ('general', 'todos');

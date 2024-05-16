@@ -1,5 +1,22 @@
 import * as bcrypt from "bcrypt";
 import { db } from "../database.ts";
+import { jsonArrayFrom } from "../libs/kysely-helpers.ts";
+
+export async function findAll() {
+	return await db
+		.selectFrom("users")
+		.selectAll()
+		.select((eb) => [
+			jsonArrayFrom(
+				eb
+					.selectFrom("usersRoles")
+					.whereRef("usersRoles.userId", "=", "users.id")
+					.select(["usersRoles.roleIdentifier"]),
+			).as("roles"),
+		])
+		.orderBy("id")
+		.execute();
+}
 
 export async function findById(id: number) {
 	return await db
@@ -24,6 +41,7 @@ export async function findByIdWithPermissions(id: number) {
 		)
 		.where("usersRoles.userId", "=", id)
 		.select("rolesPermissions.permissionIdentifier")
+		.distinct()
 		.execute();
 
 	return { user, permissions: permissions.map((p) => p.permissionIdentifier) };
@@ -164,4 +182,35 @@ export async function removeRole(userId: number, roleIdentifier: string) {
 		.where("roleIdentifier", "=", roleIdentifier)
 		.returningAll()
 		.execute();
+}
+
+export async function updateRoles(userId: number, roles: string[]) {
+	return await db.transaction().execute(async (tr) => {
+		await tr.deleteFrom("usersRoles").where("userId", "=", userId).execute();
+		if (roles.length > 0) {
+			await tr
+				.insertInto("usersRoles")
+				.values(
+					roles.flatMap((roleIdentifier) => ({
+						userId,
+						roleIdentifier,
+					})),
+				)
+				.execute();
+		}
+
+		return await tr
+			.selectFrom("users")
+			.selectAll()
+			.select((eb) => [
+				jsonArrayFrom(
+					eb
+						.selectFrom("usersRoles")
+						.whereRef("usersRoles.userId", "=", "users.id")
+						.select(["usersRoles.roleIdentifier"]),
+				).as("roles"),
+			])
+			.where("id", "=", userId)
+			.executeTakeFirst();
+	});
 }

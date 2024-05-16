@@ -2,6 +2,7 @@ import { Hono } from "hono/mod.ts";
 import { z } from "zod";
 import type { Users } from "../database-types.ts";
 import { generateJwtToken } from "../libs/crypto.ts";
+import { permissionChecker } from "../middleware/permission-checker.ts";
 import * as modelUsers from "../models/users.ts";
 
 const app = new Hono();
@@ -81,5 +82,33 @@ app.post("/me/update", async (c) => {
 
 	return c.json({ success: true, user: updatedUser }, 200);
 });
+
+app.get("/", permissionChecker("management_users"), async (c) => {
+	const users = await modelUsers.findAll();
+	return c.json(users);
+});
+
+const updateUserRolesSchema = z.object({
+	roles: z.array(z.string()),
+});
+app.get(
+	"/:id/update_roles",
+	permissionChecker("management_users"),
+	async (c) => {
+		const userId = c.req.param("id");
+		const body = await c.req.json();
+		const vResult = updateUserRolesSchema.safeParse(body);
+		if (!vResult.success) {
+			return c.json({ message: "Invalid request" }, 400);
+		}
+
+		const updatedUser = await modelUsers.updateRoles(
+			Number(userId),
+			body.roles,
+		);
+
+		return c.json(updatedUser);
+	},
+);
 
 export const usersRoute = app;
