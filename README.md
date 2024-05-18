@@ -11,6 +11,5 @@ deno task dev
 - [x] PostgreSQL
 - [x] [migrate](https://github.com/golang-migrate/migrate)
 - [x] [Biome](https://biomejs.dev)
-- [ ] SignIn
-- [ ] 権限管理
-- [ ]
+- [x] Sign In / Sign Up
+- [x] Roles and Permissions
