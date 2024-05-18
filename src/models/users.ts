@@ -83,6 +83,7 @@ export async function update({
 	id,
 	displayName,
 	email,
+	password,
 	language,
 	timezone,
 	datetimeFormat,
@@ -90,15 +91,23 @@ export async function update({
 	id: number;
 	displayName: string;
 	email: string;
+	password?: string;
 	language: string;
 	timezone: string;
 	datetimeFormat: string;
 }) {
+	let passwordDigest: string | undefined;
+	if (password) {
+		const salt = await bcrypt.genSalt(15);
+		passwordDigest = await bcrypt.hash(password, salt);
+	}
+
 	return await db
 		.updateTable("users")
 		.set({
 			displayName,
 			email,
+			passwordDigest,
 			language,
 			timezone,
 			datetimeFormat,
@@ -141,6 +150,21 @@ export async function leave(id: number) {
 		await tr
 			.insertInto("usersRoles")
 			.values({ userId: id, roleIdentifier: "leaved" })
+			.execute();
+		return await tr
+			.selectFrom("users")
+			.where("id", "=", id)
+			.selectAll()
+			.executeTakeFirst();
+	});
+}
+
+export async function reject(id: number) {
+	return await db.transaction().execute(async (tr) => {
+		await tr.deleteFrom("usersRoles").where("userId", "=", id).execute();
+		await tr
+			.insertInto("usersRoles")
+			.values({ userId: id, roleIdentifier: "rejected" })
 			.execute();
 		return await tr
 			.selectFrom("users")

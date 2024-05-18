@@ -14,8 +14,8 @@ declare module "hono/context.ts" {
 }
 
 const unauthenticatedPaths = [
-	"^/users/sign-in$",
-	"^/users/sign-up$",
+	"^/users/sign_in$",
+	"^/users/sign_up$",
 	"^/invitations/check/.*$",
 ];
 

@@ -9,9 +9,9 @@ describe("user routes", () => {
 		await db.destroy();
 	});
 
-	describe("POST /users/sign-in", () => {
+	describe("POST /users/sign_in", () => {
 		it("200 success", async () => {
-			const res = await app.request("/users/sign-in", {
+			const res = await app.request("/users/sign_in", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -28,7 +28,7 @@ describe("user routes", () => {
 		});
 
 		it("401 Unauthorized by invalid password", async () => {
-			const res = await app.request("/users/sign-in", {
+			const res = await app.request("/users/sign_in", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -46,7 +46,7 @@ describe("user routes", () => {
 		});
 
 		it("401 by rejected user", async () => {
-			const res = await app.request("/users/sign-in", {
+			const res = await app.request("/users/sign_in", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

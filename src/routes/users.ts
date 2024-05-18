@@ -12,7 +12,7 @@ const signInSchema = z.object({
 	email: z.string(),
 	password: z.string(),
 });
-app.post("/sign-in", async (c) => {
+app.post("/sign_in", async (c) => {
 	const body = await c.req.json();
 	const vResult = signInSchema.safeParse(body);
 
@@ -49,7 +49,7 @@ const signUpSchema = z.object({
 	language: z.string().min(1).max(100).optional(),
 	datetimeFormat: z.string().min(1).max(100).optional(),
 });
-app.post("/sign-up", async (c) => {
+app.post("/sign_up", async (c) => {
 	const body = await c.req.json();
 	const vResult = signUpSchema.safeParse(body);
 
@@ -73,6 +73,7 @@ app.post("/sign-up", async (c) => {
 		language: body.language,
 		datetimeFormat: body.datetimeFormat,
 	});
+	await modelUsers.addRole(user.id, "general");
 
 	return c.json(user);
 });
@@ -80,6 +81,12 @@ app.post("/sign-up", async (c) => {
 app.post("leave", async (c) => {
 	const user = c.get("currentUser") as Users;
 	const deletedUser = await modelUsers.leave(Number(user.id));
+	return c.json(deletedUser);
+});
+
+app.post("/:id/reject", permissionChecker("users_management"), async (c) => {
+	const userId = c.req.param("id");
+	const deletedUser = await modelUsers.reject(Number(userId));
 	return c.json(deletedUser);
 });
 
@@ -154,5 +161,33 @@ app.post(
 		return c.json(updatedUser);
 	},
 );
+
+const userUpdateSchema = z.object({
+	email: z.string().min(3).max(100),
+	password: z.string().min(8).max(50).optional(),
+	displayName: z.string().min(1).max(100),
+	timezone: z.string().min(1).max(100).optional(),
+	language: z.string().min(1).max(100).optional(),
+	datetimeFormat: z.string().min(1).max(100).optional(),
+});
+app.post("/:id/update", permissionChecker("users_management"), async (c) => {
+	const userId = c.req.param("id");
+	const body = await c.req.json();
+	const vResult = userUpdateSchema.safeParse(body);
+	if (!vResult.success) {
+		return c.json({ message: "Invalid request" }, 400);
+	}
+
+	const updatedUser = await modelUsers.update({
+		id: Number(userId),
+		email: body.email,
+		password: body.password || undefined,
+		displayName: body.displayName,
+		timezone: body.timezone,
+		language: body.language,
+		datetimeFormat: body.datetimeFormat,
+	});
+	return c.json(updatedUser);
+});
 
 export const usersRoute = app;
