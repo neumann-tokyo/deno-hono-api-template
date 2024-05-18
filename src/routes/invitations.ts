@@ -36,7 +36,7 @@ app.post("/:identifier/delete", permissionChecker("invitations"), async (c) => {
 	return c.json(invitation);
 });
 
-app.get("/check/:identifier", async (c) => {
+app.post("/check/:identifier", async (c) => {
 	const identifier = c.req.param("identifier");
 
 	if (await modelInvitations.verify(identifier)) {

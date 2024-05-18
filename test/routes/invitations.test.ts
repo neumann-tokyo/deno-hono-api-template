@@ -60,10 +60,11 @@ describe("invitations routes", () => {
 		});
 	});
 
-	describe("GET /invitations/check/:identifier", () => {
+	describe("POST /invitations/check/:identifier", () => {
 		it("200 true", async () => {
 			const res = await app.request(
 				`/invitations/check/${invitation.identifier}`,
+				{ method: "POST" },
 			);
 			const resBody = await res.json();
 
@@ -75,6 +76,9 @@ describe("invitations routes", () => {
 			const invitationWithoutExireLimit = await modelsInvitations.create();
 			const res = await app.request(
 				`/invitations/check/${invitationWithoutExireLimit?.identifier}`,
+				{
+					method: "POST",
+				},
 			);
 			const resBody = await res.json();
 
@@ -90,6 +94,7 @@ describe("invitations routes", () => {
 
 			const res = await app.request(
 				`/invitations/check/${expiredInvitation?.identifier}`,
+				{ method: "POST" },
 			);
 			const resBody = await res.json();
 
