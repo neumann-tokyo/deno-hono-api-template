@@ -37,10 +37,18 @@ values
     now()
   ),
   (
+    'invitations',
+    'invite new users',
+    'invite new users',
+    3,
+    now(),
+    now()
+  ),
+  (
     'todos',
     'Use todos feature',
     'Use todos feature',
-    3,
+    4,
     now(),
     now()
   );
@@ -96,8 +104,10 @@ values
   ('admin', 'sign_in'),
   ('admin', 'roles'),
   ('admin', 'users_management'),
+  ('admin', 'invitations'),
   ('admin', 'todos'),
   ('general', 'sign_in'),
+  ('general', 'invitations'),
   ('general', 'todos');
 
 

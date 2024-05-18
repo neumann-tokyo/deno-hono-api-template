@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { Users } from "../database-types.ts";
 import { generateJwtToken } from "../libs/crypto.ts";
 import { permissionChecker } from "../middleware/permission-checker.ts";
+import * as modelInvitations from "../models/invitations.ts";
 import * as modelUsers from "../models/users.ts";
 
 const app = new Hono();
@@ -39,9 +40,46 @@ app.post("/sign-in", async (c) => {
 	return c.json({ message: "Invalid email or password" }, 401);
 });
 
+const signUpSchema = z.object({
+	invitationIdentifier: z.string().min(1).max(100),
+	email: z.string().min(3).max(100),
+	password: z.string().min(8).max(50),
+	displayName: z.string().min(1).max(100),
+	timezone: z.string().min(1).max(100).optional(),
+	language: z.string().min(1).max(100).optional(),
+	datetimeFormat: z.string().min(1).max(100).optional(),
+});
+app.post("/sign-up", async (c) => {
+	const body = await c.req.json();
+	const vResult = signUpSchema.safeParse(body);
+
+	if (vResult.success === false) {
+		return c.json({ message: "Invalid user data" }, 400);
+	}
+
+	const enableInvitation = await modelInvitations.verify(
+		body.invitationIdentifier,
+	);
+
+	if (!enableInvitation) {
+		return c.json({ message: "Invalid invitation token" }, 400);
+	}
+
+	const user = await modelUsers.create({
+		email: body.email,
+		password: body.password,
+		displayName: body.displayName,
+		timezone: body.timezone,
+		language: body.language,
+		datetimeFormat: body.datetimeFormat,
+	});
+
+	return c.json(user);
+});
+
 app.post("leave", async (c) => {
 	const user = c.get("currentUser") as Users;
-	const deletedUser = await modelUsers.leave(user.id);
+	const deletedUser = await modelUsers.leave(Number(user.id));
 	return c.json(deletedUser);
 });
 

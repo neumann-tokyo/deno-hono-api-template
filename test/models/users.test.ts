@@ -1,7 +1,6 @@
 import { afterAll, describe, it } from "deno_mocha";
 import { assertEquals, assertExists } from "std/assert/mod.ts";
 import * as uuid from "std/uuid/mod.ts";
-import type { Roles } from "../../src/database-types.ts";
 import { db } from "../../src/database.ts";
 import * as modelsUser from "../../src/models/users.ts";
 
@@ -14,7 +13,7 @@ describe("user model", () => {
 		const users = await modelsUser.findAll();
 		assertExists(users.length >= 3);
 		assertEquals(users[0].email, "admin1@example.com");
-		assertExists((users[0].roles as Roles[]).length > 0);
+		assertExists(users[0].roles.length > 0);
 	});
 
 	it("create", async () => {

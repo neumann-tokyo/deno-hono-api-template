@@ -1,4 +1,4 @@
-import { sql } from "kysely";
+import { type Expression, type RawBuilder, type Simplify, sql } from "kysely";
 
 /**
  * A postgres helper for aggregating a subquery (or other expression) into a JSONB array.
@@ -49,7 +49,9 @@ import { sql } from "kysely";
  * from "person"
  * ```
  */
-export function jsonArrayFrom<O>(expr) {
+export function jsonArrayFrom<O>(
+	expr: Expression<O>,
+): RawBuilder<Simplify<O>[]> {
 	return sql`(select coalesce(json_agg(agg), '[]') from ${expr} as agg)`;
 }
 
@@ -104,7 +106,9 @@ export function jsonArrayFrom<O>(expr) {
  * from "person"
  * ```
  */
-export function jsonObjectFrom(expr) {
+export function jsonObjectFrom<O>(
+	expr: Expression<O>,
+): RawBuilder<Simplify<O> | null> {
 	return sql`(select to_json(obj) from ${expr} as obj)`;
 }
 
@@ -148,7 +152,13 @@ export function jsonObjectFrom(expr) {
  * from "person"
  * ```
  */
-export function jsonBuildObject(obj) {
+export function jsonBuildObject<O extends Record<string, Expression<unknown>>>(
+	obj: O,
+): RawBuilder<
+	Simplify<{
+		[K in keyof O]: O[K] extends Expression<infer V> ? V : never;
+	}>
+> {
 	return sql`json_build_object(${sql.join(
 		Object.keys(obj).flatMap((k) => [sql.lit(k), obj[k]]),
 	)})`;

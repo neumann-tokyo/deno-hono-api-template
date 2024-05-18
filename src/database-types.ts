@@ -12,6 +12,13 @@ export type Int8 = ColumnType<
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export interface Invitations {
+	createdAt: Generated<Timestamp>;
+	expiredAt: Timestamp | null;
+	identifier: string;
+	updatedAt: Generated<Timestamp>;
+}
+
 export interface Permissions {
 	createdAt: Generated<Timestamp>;
 	description: string | null;
@@ -71,6 +78,7 @@ export interface UsersRoles {
 }
 
 export interface DB {
+	invitations: Invitations;
 	permissions: Permissions;
 	roles: Roles;
 	rolesPermissions: RolesPermissions;

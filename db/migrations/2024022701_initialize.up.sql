@@ -17,6 +17,15 @@ create table
 
 
 create table
+  invitations (
+    identifier varchar(100) primary key,
+    expired_at timestamp,
+    created_at timestamp not null default now(),
+    updated_at timestamp not null default now()
+  );
+
+
+create table
   permissions (
     identifier varchar(100) primary key,
     display_name varchar(100) not null,

@@ -1,5 +1,5 @@
 import { afterAll, describe, it } from "deno_mocha";
-import { assertEquals, assertExists, assertNotEquals } from "std/assert/mod.ts";
+import { assertEquals, assertExists } from "std/assert/mod.ts";
 import { app } from "../../src/app.ts";
 import { db } from "../../src/database.ts";
 import { generateJwtToken } from "../../src/libs/crypto.ts";

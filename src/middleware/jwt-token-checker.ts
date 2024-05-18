@@ -13,8 +13,14 @@ declare module "hono/context.ts" {
 	}
 }
 
+const unauthenticatedPaths = [
+	"^/users/sign-in$",
+	"^/users/sign-up$",
+	"^/invitations/check/.*$",
+];
+
 export const jwtTokenChecker = createMiddleware(async (c, next) => {
-	if (c.req.path === "/users/sign-in") {
+	if (unauthenticatedPaths.some((path) => new RegExp(path).test(c.req.path))) {
 		return await next();
 	}
 
