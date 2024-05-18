@@ -11,7 +11,7 @@ app.get("/", permissionChecker("invitations"), async (c) => {
 });
 
 const createInvitationSchema = z.object({
-	expiredAt: z.string().datetime().optional(),
+	expiredAt: z.string().datetime({ offset: true }).optional(),
 });
 app.post("/", permissionChecker("invitations"), async (c) => {
 	const body = await c.req.json();
@@ -23,6 +23,16 @@ app.post("/", permissionChecker("invitations"), async (c) => {
 	const invitation = await modelInvitations.create({
 		expiredAt: body.expiredAt,
 	});
+	return c.json(invitation);
+});
+
+app.post("/:identifier/delete", permissionChecker("invitations"), async (c) => {
+	const identifier = c.req.param("identifier");
+
+	const invitation = await modelInvitations.remove({
+		identifier,
+	});
+
 	return c.json(invitation);
 });
 

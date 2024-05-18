@@ -23,6 +23,18 @@ export async function create({
 		.executeTakeFirst();
 }
 
+export async function remove({
+	identifier,
+}: {
+	identifier: string;
+}) {
+	return await db
+		.deleteFrom("invitations")
+		.where("identifier", "=", identifier)
+		.returningAll()
+		.executeTakeFirst();
+}
+
 export async function verify(identifier: string) {
 	const invitation = await db
 		.selectFrom("invitations")
