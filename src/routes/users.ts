@@ -73,6 +73,10 @@ app.post("/sign_up", async (c) => {
 		language: body.language,
 		datetimeFormat: body.datetimeFormat,
 	});
+	if (!user) {
+		return c.json({ message: "Fail to make the user" }, 400);
+	}
+
 	await modelUsers.addRole(user.id, "general");
 
 	return c.json(user);
