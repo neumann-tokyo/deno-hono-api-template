@@ -1,0 +1,34 @@
+#!/bin/bash
+set -Ceux
+
+ARGS=${@:2}
+
+case ${1} in
+"psql") ##
+psql postgresql://postgres:password@db:5432/development?sslmode=disable
+;;
+"migrate") ## migrate
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable up
+deno task kysely-codegen
+;;
+"migrate:rollback") ## migrate
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable down
+;;
+"migrate:test") ## migrate test
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable up
+;;
+"migrate:test:rollback") ## migrate test
+migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable down
+;;
+"db:seed") ##
+for sql in db/seeds/{01_share,development}/*.sql; do
+  echo $sql
+  psql postgresql://postgres:password@db:5432/development?sslmode=disable < $sql
+done
+;;
+"help" | *)
+echo "HELP"
+echo "  COMMAND ) DESCRIPTION ) REQUIRE ) ARGS"
+\grep -E "\)\ *\##" ${0}
+;;
+esac

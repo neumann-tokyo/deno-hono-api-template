@@ -1,0 +1,39 @@
+#!/bin/bash
+set -e
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+TARGETS=$(git diff --name-only --staged $ROOT_DIR)
+
+TS_FILES=()
+MARKDOWN_FILES=()
+SQL_FILES=()
+
+for target in $TARGETS
+do
+  if [[ $target =~ \.(js|ts|cjs|mjs|d.cts|d.mts|jsx|tsx|json|jsonc)$ && -e "$ROOT_DIR/$target" ]]; then
+    TS_FILES+=("$ROOT_DIR/$target")
+  fi
+
+  if [[ $target =~ \.(md|markdown)$ && -e "$ROOT_DIR/$target" ]]; then
+    MARKDOWN_FILES+=("$ROOT_DIR/$target")
+  fi
+
+  if [[ $target =~ \.(sql)$ && -e "$ROOT_DIR/$target" ]]; then
+    SQL_FILES+=("$ROOT_DIR/$target")
+  fi
+done
+
+if [ ${#TS_FILES[@]} -ne 0 ]; then
+  biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true ${TS_FILES[*]}
+fi
+
+if [ ${#MARKDOWN_FILES[@]} -ne 0 ]; then
+  deno fmt ${MARKDOWN_FILES[*]}
+fi
+
+# if [ ${#SQL_FILES[@]} -ne 0 ]; then
+#   sql-formatter --fix -l postgresql ${SQL_FILES[*]}
+# fi
+
+git add -A /home/alice/server
+git update-index --again

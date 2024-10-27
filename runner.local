@@ -1,0 +1,43 @@
+#!/bin/bash
+set -Ceux
+
+ARGS=${@:2}
+DC="docker compose -f docker-compose.yml"
+
+case ${1} in
+"dc") ## docker compose
+${DC} ${ARGS}
+;;
+"setup") ## setup
+${DC} up -d --build
+sleep 3
+./runner.local migrate
+sleep 3
+./runner.local migrate:test
+sleep 3
+./runner.local db:seed
+;;
+"migrate") ## migrate
+${DC} exec server migrate -source file://db/migrations -database postgres://postgres:password@db:5432/development?sslmode=disable up
+#${DC} exec server deno task kysely-codegen
+;;
+"migrate:test") ## migrate test
+${DC} exec server migrate -source file://db/migrations -database postgres://postgres:password@db:5432/test?sslmode=disable up
+;;
+"reset") ## reset
+${DC} down -v
+sleep 3
+./runner.local setup
+;;
+"db:seed") ##
+for sql in db/seeds/{01_share,development}/*.sql; do
+  echo $sql
+  ${DC} exec -T db psql postgresql://postgres:password@db:5432/development?sslmode=disable < $sql
+done
+;;
+"help" | *)
+echo "HELP"
+echo "  COMMAND ) DESCRIPTION ) REQUIRE ) ARGS"
+\grep -E "\)\ *\##" ${0}
+;;
+esac

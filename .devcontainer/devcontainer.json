@@ -1,0 +1,71 @@
+{
+	"name": "server",
+	"dockerComposeFile": ["../docker-compose.yml"],
+	"service": "server",
+	"workspaceFolder": "/home/alice/server",
+	"postAttachCommand": "git config --global core.pager \"less -FX\" && cp -f /home/alice/server/.devcontainer/pre-commit /home/alice/server/.git/hooks/ && sudo chown -R alice:alice /home/alice/",
+	"shutdownAction": "stopCompose",
+	"initializeCommand": "ls",
+	"containerUser": "alice",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"denoland.vscode-deno",
+				"wmaurer.change-case",
+				"sleistner.vscode-fileutils",
+				"usernamehw.errorlens",
+				"albymor.increment-selection",
+				"huizhou.githd",
+				"naumovs.color-highlight",
+				"lea21st.vscode-sql-formatter",
+				"biomejs.biome"
+			],
+			"settings": {
+				"deno.enable": true,
+				"deno.config": "/home/alice/server/deno.jsonc",
+				"deno.codeLens.implementations": true,
+				"deno.internalInspect": false,
+				"deno.path": "/usr/bin/deno",
+				"editor.formatOnSave": true,
+				"editor.formatOnSaveMode": "file",
+				"files.insertFinalNewline": true,
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"terminal.integrated.profiles.linux": {
+					"bash": { "path": "/bin/bash" }
+				},
+				"biome.lspBin": "/usr/bin/biome",
+				"editor.codeActionsOnSave": {
+					"quickfix.biome": "explicit",
+					"source.organizeImports.biome": "explicit"
+				},
+				"[javascript]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+				"[typescript]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+				"[javascriptreact]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+				"[typescriptreact]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+				"[json]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+				"[jsonc]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+				"[markdown]": {
+					"editor.defaultFormatter": "denoland.vscode-deno"
+				},
+				"sql-formatter.uppercase": false,
+				"[sql]": {
+					"editor.defaultFormatter": "lea21st.vscode-sql-formatter"
+				},
+				"sql-formatter.dialect": "postgresql",
+				"workbench.colorTheme": "Default Dark Modern"
+			}
+		}
+	}
+}

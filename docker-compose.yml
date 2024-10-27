@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:16.2
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=development
+      - TEST_DB=test
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db/initialize:/docker-entrypoint-initdb.d
+  server:
+    build: .
+    command: tail -f /dev/null
+    user: alice
+    volumes:
+      - .:/home/alice/server
+      - deno-dir-data:/home/alice/deno-dir
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    env_file:
+      - .env
+
+volumes:
+  deno-dir-data:
+  postgres-data:
