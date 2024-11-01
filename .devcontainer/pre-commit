@@ -24,7 +24,7 @@ do
 done
 
 if [ ${#TS_FILES[@]} -ne 0 ]; then
-  biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true ${TS_FILES[*]}
+  biome check --write --no-errors-on-unmatched --files-ignore-unknown=true ${TS_FILES[*]}
 fi
 
 if [ ${#MARKDOWN_FILES[@]} -ne 0 ]; then
