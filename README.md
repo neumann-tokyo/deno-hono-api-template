@@ -1,6 +1,8 @@
 # Deno hono api template
 
-```
+```shell
+./runner.devcontainer migrate
+./runner.devcontainer db:seed
 deno task dev
 ```
 
@@ -11,5 +13,14 @@ deno task dev
 - [x] PostgreSQL
 - [x] [migrate](https://github.com/golang-migrate/migrate)
 - [x] [Biome](https://biomejs.dev)
-- [x] Sign In / Sign Up
-- [x] Roles and Permissions
+
+## Feature
+
+- Sign In / Sign Up
+- Roles and Permissions
+- Todo List
+
+## Front End
+
+- [neumann-tokyo/node-vite-react-template](https://github.com/neumann-tokyo/node-vite-react-template)
+- [neumann-tokyo/deno-vite-react-template](https://github.com/neumann-tokyo/deno-vite-react-template)
